@@ -1,0 +1,10 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<Proxy>
+  <ServerSet>
+    <server name="server1" ip="127.0.0.1" port="8105" username="sa" password="pinusdb" maxconn="30" />
+  </ServerSet>
+  <TableSet>
+    <table aliasName="tab01" tableName="tab01" server="server1" />
+    <table aliasName="tab02" tableName="tab02" server="server1" />
+  </TableSet>
+</Proxy>
