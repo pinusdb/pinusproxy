@@ -50,7 +50,9 @@ notin : 值不位于指定的数组内，可以用于bigint类型。
 请求方法: POST  
 返回实例: 
 ```json
-[{"AliasName":"tab01","TableName":"tab01","ServerName":"server1"}]
+[
+    {"AliasName":"tab01","TableName":"tab01","ServerName":"server1"}
+]
 ```
 
 + 查询原始数据  
@@ -68,24 +70,51 @@ Limit | 数字 | 否 | 查询条数，默认为1000， 不大于10000
 
 请求示例：  
 ```json
-{"Table":"tab01", "Fields":["devid","tstamp","val01","val02"], "Conditions":[{"Field":"devid", "Op":"eq", "Value":10}], "Limit":5}
+{
+    "Table":"tab01", 
+    "Fields":["devid","tstamp","val01","val02"], 
+    "Conditions":[{"Field":"devid", "Op":"eq", "Value":10}], 
+    "Limit":5
+}
 ```
 
 返回示例：  
 ```json
-{ "err":0, "data": [{"devid":10,"tstamp":1582449065073,"val01":false,"val02":3378},{"devid":10,"tstamp":1582449070073,"val01":false,"val02":9733},{"devid":10,"tstamp":1582449075073,"val01":false,"val02":16130},{"devid":10,"tstamp":1582449080073,"val01":true,"val02":22529},{"devid":10,"tstamp":1582449085073,"val01":false,"val02":28876}]}
+{ 
+    "err":0, 
+    "data": 
+    [
+        {"devid":10,"tstamp":1582449065073,"val01":false,"val02":3378},
+        {"devid":10,"tstamp":1582449070073,"val01":false,"val02":9733},
+        {"devid":10,"tstamp":1582449075073,"val01":false,"val02":16130},
+        {"devid":10,"tstamp":1582449080073,"val01":true,"val02":22529},
+        {"devid":10,"tstamp":1582449085073,"val01":false,"val02":28876}
+    ]
+}
 ```
 
 + 查询快照数据  
 与查询原始数据一致，表名后加.snapshot即可  
 请求示例：  
 ```json
-{"Table":"tab01.snapshot", "Fields":["devid","tstamp","val01","val02"], "Limit": 3}
+{
+    "Table":"tab01.snapshot",
+    "Fields":["devid","tstamp","val01","val02"], 
+    "Limit": 3
+}
 ```
 
 返回示例：
 ```json
-{ "err":0, "data": [{"devid":1,"tstamp":1582461490073,"val01":true,"val02":-179517},{"devid":2,"tstamp":1582461490073,"val01":true,"val02":-179427},{"devid":3,"tstamp":1582461490073,"val01":true,"val02":-179415}]}
+{ 
+    "err":0, 
+    "data": 
+    [
+        {"devid":1,"tstamp":1582461490073,"val01":true,"val02":-179517},
+        {"devid":2,"tstamp":1582461490073,"val01":true,"val02":-179427},
+        {"devid":3,"tstamp":1582461490073,"val01":true,"val02":-179415}
+    ]
+}
 ```
 
 + 根据devid聚合查询  
@@ -103,12 +132,28 @@ Limit | 数字 | 否 | 查询条数，默认为1000，不大于10000
 
 请求示例：  
 ```json
-{"Table":"tab01", "Fields":[{"Aggregator":"none", "Field":"devid", "Alias":"devid"}, {"Aggregator":"max", "Field":"val02", "Alias":"max_val02"}], "Limit": 3}
+{
+    "Table":"tab01", 
+    "Fields":
+    [
+        {"Aggregator":"none", "Field":"devid", "Alias":"devid"}, 
+        {"Aggregator":"max", "Field":"val02", "Alias":"max_val02"}
+    ], 
+    "Limit": 3
+}
 ```
 
 返回示例：  
 ```json
-{ "err":0, "data": [{"devid":1,"max_val02":199981},{"devid":2,"max_val02":199964},{"devid":3,"max_val02":199965}]}
+{ 
+    "err":0, 
+    "data": 
+    [
+        {"devid":1,"max_val02":199981},
+        {"devid":2,"max_val02":199964},
+        {"devid":3,"max_val02":199965}
+    ]
+}
 ```
 
 + 根据 tstamp 聚合查询  
@@ -127,12 +172,34 @@ Limit | 数字 | 否 | 查询条数，默认为1000，不大于10000
 
 以1分钟为聚合，请求示例:
 ```json
-{"Table":"tab01", "Fields":[{"Aggregator":"none", "Field":"tstamp", "Alias":"tstamp"}, {"Aggregator":"max", "Field":"val02", "Alias":"max_val02"}], "Conditions":[{"Field":"tstamp", "Op":"gt", "Value":"2020-2-23 18:0:0"},{"Field":"devid", "Op":"eq", "Value": 123}], "GroupTstamp":60000, "Limit": 3}
+{
+    "Table":"tab01", 
+    "Fields":
+    [
+        {"Aggregator":"none", "Field":"tstamp", "Alias":"tstamp"},
+        {"Aggregator":"max", "Field":"val02", "Alias":"max_val02"}
+    ], 
+    "Conditions":
+    [
+        {"Field":"tstamp", "Op":"gt", "Value":"2020-2-23 18:0:0"},
+        {"Field":"devid", "Op":"eq", "Value": 123}
+    ], 
+    "GroupTstamp":60000, 
+    "Limit": 3
+}
 ```
 
 返回示例：  
 ```json
-{ "err":0, "data": [{"tstamp":1582452000000,"max_val02":null},{"tstamp":1582512000000,"max_val02":null},{"tstamp":1582572000000,"max_val02":null}]}
+{ 
+    "err":0, 
+    "data": 
+    [
+        {"tstamp":1582452000000,"max_val02":null},
+        {"tstamp":1582512000000,"max_val02":null},
+        {"tstamp":1582572000000,"max_val02":null}
+    ]
+}
 ```
 
 + 对所有数据进行聚合  
@@ -148,12 +215,21 @@ Conditions | 查询条件列表 | 否 | 查询条件
 
 请求示例:
 ```json
-{"Table":"tab01", "Fields":[{"Aggregator":"count", "Field":"devid", "Alias":"count_num"}]}
+{
+    "Table":"tab01", 
+    "Fields":
+    [
+        {"Aggregator":"count", "Field":"devid", "Alias":"count_num"}
+    ]
+}
 ``` 
 
 返回示例:  
 ```json
-{ "err":0, "data": [{"count_num":248600}]}
+{ 
+    "err":0, 
+    "data": [{"count_num":248600}]
+}
 ```
 
 
